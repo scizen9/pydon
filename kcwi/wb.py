@@ -1,14 +1,14 @@
-import os
 from astropy.io import fits as pf
 
-def get_log_string(ifile):
+
+def get_log_string(ifile, batch=False):
     try:
-        FF = pf.open(ifile)
+        ff = pf.open(ifile)
     except IOError:
         print("***ERROR*** empty or corrupt fits file: %s" % ifile)
         return None, None
 
-    header = FF[0].header
+    header = ff[0].header
     header['FNAME'] = ifile
     if 'OFNAME' not in header:
         header['OFNAME'] = ifile
@@ -48,6 +48,8 @@ def get_log_string(ifile):
         header['CALTYPE'] = '-'
     if 'IFUNAM' not in header:
         header['IFUNAM'] = '-'
+    else:
+        header['IFUNAM'] = header['IFUNAM'][:3]
     if 'OBJECT' not in header:
         header['OBJECT'] = '-'
     if 'TARGNAME' not in header:
@@ -77,17 +79,41 @@ def get_log_string(ifile):
     if 'object' in header['CALTYPE']:
         if 'on' in header['FLSPECTR'] or 'on' in header['FLIMAGIN']:
             header['ILLUME'] = 'DOME'
-            header['OBJECT'] = 'DOME'
-    if 'object' not in header['CALTYPE']:
-        header['OBJECT'] = header['OBJECT'] + header['ILLUME']
+            if not batch:
+                header['OBJECT'] = 'DOME'
+    if not batch:
+        if 'object' not in header['CALTYPE']:
+            header['OBJECT'] = header['OBJECT'] + header['ILLUME']
     try:
-        lstring = "%(OFNAME)19s (%(AMPMODE)3s/%(BINNING)3s/%(CCDMODE)1d/%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)6s/%(BFILTNAM)5s/%(BGRATNAM)4s/%(BGROTNAM)9s dg/%(BCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), (%(BARTANG)5.1f/%(BNASNAM)4s/%(BFOCMM)6.3f): %(CALTYPE)7s/%(ILLUME)6s/%(OBJECT)s" % header
+        lstring = "%(OFNAME)19s (%(AMPMODE)3s/%(BINNING)3s/%(CCDMODE)1d/%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/%(BFILTNAM)5s/%(BGRATNAM)4s/%(BGROTNAM)9s dg/%(BCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), (%(BARTANG)5.1f/%(BNASNAM)4s/%(BFOCMM)6.3f): %(CALTYPE)7s/%(ILLUME)6s/%(OBJECT)s" % header
     except:
         lstring = "%28s : ?" % ifile
 
     if header['EXPTIME'] <= 0.0:
         cstr = "%(BINNING)3s:%(AMPMODE)3s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % header
     else:
-        cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f:%(EXPTIME)6.1f:%(OBJECT)s" % header
+        if batch:
+            cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f" % header
+        else:
+            cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f:%(EXPTIME)6.1f:%(OBJECT)s" % header
 
     return lstring, cstr
+
+
+if __name__ == '__main__':
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage - wb <fspec>")
+    else:
+        configs = []
+        for ifl in sys.argv[1:]:
+            logstr, cfgstr = get_log_string(ifl, batch=True)
+            print(logstr)
+            configs.append(cfgstr)
+
+        # Unique configs
+        uconfigs = sorted(set(configs))
+        print("Number of unique configurations = %d" % len(uconfigs))
+        for c in uconfigs:
+            print(c)

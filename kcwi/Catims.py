@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import kcwi.wb as wb
+import pydon.kcwi.wb as wb
 import datetime
 import glob
 import astropy.io.fits as fits
@@ -14,9 +14,10 @@ def build_image_report(file_list=None):
     """ """
     fig = plt.figure()
     plt.ioff()
+    ofile = 'catim.png'
     for nf, ifile in enumerate(file_list, start=1):
         now = datetime.datetime.now()
-        timestring = "made on %d-%02d-%02d at %02d:%02d:%02d" % (now.year,
+        timestring = "created %d-%02d-%02d at %02d:%02d:%02d" % (now.year,
                                                                  now.month,
                                                                  now.day,
                                                                  now.hour,
@@ -40,7 +41,9 @@ def build_image_report(file_list=None):
 
         plt.imshow(image_data, vmin=vmin, vmax=vmax, cmap='hsv')
         plt.colorbar()
-        plt.title(ifile.split('.')[0] + ': ' + cfgstr, loc='left')
+        plt.figtext(0.05, .95, ifile.split('.')[0] + ': ' + cfgstr,
+                    ha='left', fontsize=12)
+        plt.figtext(0.45, .9, timestring, fontsize=7, ha='center')
         plt.savefig(ofile)
         print("%03d/%03d Saved %s: %s" % (nf, len(file_list), ofile, cfgstr))
         plt.clf()
@@ -56,23 +59,14 @@ def build_image_report(file_list=None):
 #
 #################################
 if __name__ == "__main__":
-    import argparse
+    import sys
 
-    parser = argparse.ArgumentParser(
-        description=""" Create a visual catalog of images
-            """, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument('fspec', type=str, default="*.fits",
-                        help='image file specification (*.fits)')
-
-    # ================ #
-    # END of Option    #
-    # ================ #
-    args = parser.parse_args()
-
-    flist = glob.glob(args.fspec)
-
-    if len(flist) > 0:
-        print("Cataloging %d observations matching %s" % (len(flist), args.fspec))
-        report_filename = build_image_report(flist)
+    if len(sys.argv) < 2:
+        print("Usage - catims <fspec>")
     else:
-        print("No files found matching %s" % args.fspec)
+        flist = sys.argv[1:]
+        if len(sys.argv[1:]) > 0:
+            print("Cataloging %d observations" % len(sys.argv[1:]))
+            report_filename = build_image_report(sys.argv[1:])
+        else:
+            print("No files found.")
