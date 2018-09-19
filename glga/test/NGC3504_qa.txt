@@ -1,0 +1,39 @@
+TS              =         1254173652  # last QA timestamp (unix seconds systime(1))
+TS_PRIMARY_IMG  =         1244054781  # primary image time stamp (0 = missing)
+TS_SECONDARY_IMG=         1244054790  # secondary image time stamp (0 = missing)
+TS_JPG_IMG      =         1248020716  # jpeg image time stamp (0 = missing)
+TS_PHOT_PLOTS   =         1254333358  # phot plots time stamp (0 = missing)
+TS_IMAGE_PLOTS  =         1254333358  # image plots time stamp (0 = missing)
+TS_ALTIM_PLOTS  =         1253934374  # alt wave image time stamp (0 = missing)
+ALTIM_TYPE      =               SDSS  # alt wave image type (GALEX, SDSS, 2MASS, etc.)
+USER_NAME       =                     # username of last person to perform QA
+MACHINE_NAME    =  # machine name on which QA was last done
+NOTE            =GLGA_QA_FIX run on Thu Dec 17 10:44:40 2009
+FILE            =/Users/neill/glga/data/165D/uv/fits/NGC3504_qa.txt  # QA file full path
+NQA             =                  2  # count of QA runs
+COMPLETE        =                  1  # QA completed?
+REQUIRE_JPG     =                  1  # did QA require the jpg image?
+ERROR           =                  0  # error preventing QA?
+UNCERTAIN_MASK  =                  0  # unresolved QA mask question?
+BRIGHT_STAR     =                  0  # galaxy involved with bright star?
+MULTIPLE        =                  0  # multiple galaxy?
+FOV_EXPAND      =                  0  # FOV needs expanding?
+ELLIPSE_UPDATE  =                  1  # updated ellipse info?
+ROI             =                  0  # ROI used?
+PSRC            =                  1  # point sources masked?
+MASK            =                  1  # mask file generated?
+BAND1_EDGE      =                  0  # galaxy involved in band1 (FUV, g, j) image edge?
+BAND1_SN_GRAD   =                  0  # galaxy involved in band1 (FUV, g, j) S/N gradient?
+BAND1_ARTIFACT  =                  0  # galaxy involved in band1 (FUV, g, j) artifact?
+BAND1_OTHER     =                  0  # band1 (FUV, g, j) other error?
+BAND1_MISSING   =                  0  # band1 (FUV, g, j) data missing?
+BAND2_EDGE      =                  0  # galaxy involved in band2 (NUV, r, h) image edge?
+BAND2_SN_GRAD   =                  0  # galaxy involved in band2 (NUV, r, h) S/N gradient?
+BAND2_ARTIFACT  =                  0  # galaxy involved in band2 (NUV, r, h) artifact?
+BAND2_OTHER     =                  0  # band3 (NUV, r, h) other error?
+BAND2_MISSING   =                  0  # band2 (NUV, r, h) data missing?
+BAND3_EDGE      =                  0  # galaxy involved in band3 (i, k) image edge?
+BAND3_SN_GRAD   =                  0  # galaxy involved in band3 (i, k) S/N gradient?
+BAND3_ARTIFACT  =                  0  # galaxy involved in band3 (i, k) artifact?
+BAND3_OTHER     =                  0  # band3 (i, k) other error?
+BAND3_MISSING   =                  0  # band3 (i, k) data missing?

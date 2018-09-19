@@ -1,0 +1,1 @@
+This is a test of wxPython.  It seems to work.  Now I have a little editor I can play with.  How fun.  Surely, there are more things I can do with this?
