@@ -11,6 +11,7 @@ after the value.
 __version__ = "$Id: qa.py,v 1.2 2011/06/30 00:17:27 neill Exp $"
 # $Source: /users/neill/cvshome/pylib/pydon/glga/qa.py,v $
 
+
 class GLGAQa:
 
     """GLGAQa class definition.
@@ -35,8 +36,7 @@ class GLGAQa:
         self.coms = {}
         self.good_count = 39
 
-
-    def read(self,filename, verbose=False):
+    def read(self, filename, verbose=False):
         """Read GLGA qa file into self.dict.
 
         Inputs:
@@ -53,10 +53,10 @@ class GLGAQa:
 
         # check if file exists
         try:
-            with open(filename,"r") as fh:
+            with open(filename, "r") as fh:
                 lines = fh.readlines()
-        except IOError as (errno, strerror):
-            print "I/O error({0}): {1}".format(errno, strerror)
+        except IOError as err:
+            print("I/O error({0})".format(err))
 
         # lines successfuly read in
         else:
@@ -70,7 +70,8 @@ class GLGAQa:
                         com = line.split("#")[1].strip()
                     except IndexError:
                         com = ""
-                    if val.isdigit(): val = int(val)
+                    if val.isdigit():
+                        val = int(val)
                     self.dict[key] = val
                     self.coms[key] = com
 
@@ -79,10 +80,9 @@ class GLGAQa:
                     break
 
         if len(self.dict) != self.good_count and verbose:
-            print "Warning - incomplete or invalid qa file: ", filename
+            print("Warning - incomplete or invalid qa file: ", filename)
 
         return len(self.dict)
-
 
     def set(self, key, val):
         """Set qa value associated with key in self.dict.
@@ -104,7 +104,6 @@ class GLGAQa:
             ret = True
 
         return ret
-
 
     def prt(self, *keys):
         """Print qa dictionary to screen.
@@ -128,28 +127,29 @@ class GLGAQa:
 
                     # check for invalid keys
                     try:
-                        print k.ljust(16),
-                        print str(self.dict[k]).rjust(15),
-                        if len(str(self.coms[k])) > 0: print "  # ",
-                        print str(self.coms[k])
+                        print(k.ljust(16), end=" ")
+                        print(str(self.dict[k]).rjust(15), end=" ")
+                        if len(str(self.coms[k])) > 0:
+                            print("  # ", end=" ")
+                        print(str(self.coms[k]))
                     except KeyError:
-                        print "NOT FOUND".rjust(15)
+                        print("NOT FOUND".rjust(15))
 
             # just print all the keys
             else:
                 for k in sorted(self.dict.keys()):
-                    print k.ljust(16),
-                    print str(self.dict[k]).rjust(15),
-                    if len(str(self.coms[k])) > 0: print "  # ",
-                    print str(self.coms[k])
+                    print(k.ljust(16), end=" ")
+                    print(str(self.dict[k]).rjust(15), end=" ")
+                    if len(str(self.coms[k])) > 0:
+                        print("  # ", end=" ")
+                    print(str(self.coms[k]))
 
 
 if __name__ == "__main__":
     import sys
     gqa = GLGAQa()
     if gqa.read(sys.argv[1]) != gqa.good_count:
-        print "Error - invalid qa file: ",sys.argv[1]
+        print("Error - invalid qa file: ", sys.argv[1])
         sys.exit()
 
     gqa.prt()
-

@@ -58,7 +58,7 @@ for dd in range(360):
             # If jpeg is more recent
             if jpgmtime > thmtime:
                 # Use 'convert' to create new thumb
-                print 'update ' + th
+                print('update ' + th)
                 subprocess.call(["convert","-thumbnail","100",jpg[0],th])
 
 

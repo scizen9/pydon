@@ -5,6 +5,7 @@
 __version__ = "$Id$"
 # $Source$
 
+
 class Filter:
     """Filter class definition.
 
