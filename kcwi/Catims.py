@@ -1,9 +1,10 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import pydon.kcwi.wb as wb
+try:
+    import pydon.kcwi.wb as wb
+except ImportError:
+    import kcwi.wb as wb
 import datetime
-import glob
 import astropy.io.fits as fits
 import pylab as plt
 import numpy as np
