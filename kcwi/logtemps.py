@@ -10,6 +10,7 @@ logging.basicConfig(format='%(asctime)s %(message)s',
                     level=logging.INFO, datefmt='%Y/%m/%d %H:%M:%S',
                     filename="dethk"+timestr+".log")
 
+logging.info(", TEMPDET, TEMPPKG")
 
 while True:
 
