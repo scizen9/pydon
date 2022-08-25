@@ -23,7 +23,7 @@ for d in dirlist:
         continue
     else:
         flist = sorted(flist, reverse=True)
-        current_image_number = int(flist[0].split('kr')[-1])
+        current_image_number = int(flist[0].split('kr')[-1].split('.fits')[0])
         logging.info("Current FRAMENO: %d from %s" % (current_image_number,
                                                       flist[-1]))
         next_image_number = current_image_number + 1
