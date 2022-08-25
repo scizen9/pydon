@@ -1,12 +1,10 @@
-#!kpython
-import KCWI.Red as Red
+#!/kroot/rel/default/bin/kpython
 
 import ktl
 import time
 import os
 import glob
 import logging
-import pyfits as pf
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
@@ -24,9 +22,8 @@ for d in dirlist:
         logging.info("No fits files in %s" % d)
         continue
     else:
-        flist = sorted(flist)
-        ff = pf.open(flist[-1])
-        current_image_number = ff[0].header['FRAMENO']
+        flist = sorted(flist, reverse=True)
+        current_image_number = int(flist[0].split('kr')[-1])
         logging.info("Current FRAMENO: %d from %s" % (current_image_number,
                                                       flist[-1]))
         next_image_number = current_image_number + 1
