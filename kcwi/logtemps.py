@@ -1,7 +1,5 @@
 #!/kroot/rel/default/bin/kpython
 
-# import KCWI.Red as Red
-
 import ktl
 import time
 import sys
@@ -22,18 +20,15 @@ while True:
         ktl_temppkg = ktl.cache('krds', 'TEMPPKG')
         temppkg = ktl_temppkg.read()
 
-        # td = Red.tempdetr()
-        # tp = Red.temppkgr()
+        # ktl_pressure = ktl.cache('krvs', 'PRESSURE')
+        # pressure = ktl_pressure.read()
 
-        ktl_pressure = ktl.cache('krvs', 'PRESSURE')
-        pressure = ktl_pressure.read()
+        # ktl_current = ktl.cache('krvs', 'CURRENT')
+        # current = ktl_current.read()
 
-        ktl_current = ktl.cache('krvs', 'CURRENT')
-        current = ktl_current.read()
-
-        logging.info("%s %s %s %s" % (tempdet, temppkg, pressure, current))
+        logging.info("%s %s" % (tempdet, temppkg))  # , pressure, current))
         sys.stdout.flush()
         time.sleep(30)
     except KeyboardInterrupt:
-        print("Exiting.")
+        print("\nExiting.")
         sys.exit(0)
