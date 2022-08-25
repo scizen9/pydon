@@ -1,3 +1,5 @@
+#!/kroot/rel/default/bin/kpython
+
 import KCWI.Red as Red
 
 import time
@@ -6,8 +8,8 @@ import logging
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S',
-    filename="tempdet"+timestr+".log")
+                    level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S',
+                    filename="tempdet"+timestr+".log")
 
 
 while True:
@@ -16,4 +18,3 @@ while True:
     logging.info("%s %s" % (td, tp))
     sys.stdout.flush()
     time.sleep(30)
-
