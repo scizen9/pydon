@@ -6,7 +6,7 @@ import os
 import glob
 from datetime import datetime
 
-timestr = time.strftime("%Y%m%d-%H%M%S")
+timestr = time.strftime("%Y-%m-%d %H:%M:%S")
 
 # is krds running?
 stream = os.popen('pgrep -af krds_service')
