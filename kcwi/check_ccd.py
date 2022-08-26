@@ -4,7 +4,7 @@ import ktl
 import time
 import os
 import glob
-import logging
+from datetime import datetime
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
@@ -15,8 +15,19 @@ output = stream.readlines()
 if len(output) == 1:
     ktl_ccdpower = ktl.cache('krds', 'CCDPOWER')
     ccdpower = ktl_ccdpower.read()
-    if ccdpower:
+    # power is on
+    if ccdpower == 1:
         print(timestr + ": CCDPOWER ON!")
+        # check last file
+        ktl_loutfile = ktl.cache('krds', 'LOUTFILE')
+        loutfile = ktl_loutfile.read()
+        # loutfile is set
+        if len(loutfile.strip()) > 0:
+            ts = os.path.getmtime(loutfile)
+            ftime = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            print("Last file at" + ftime + ": " + loutfile)
+        else:
+            print("Last file not recorded by server")
     else:
         print(timestr + ": CCDPOWER OFF")
 else:
