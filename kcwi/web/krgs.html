@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>KRGS</title>
+<script type="text/javascript"
+  src="dygraph.js"></script>
+<link rel="stylesheet" src="dygraph.css" />
+</head>
+<body>
+<h2>KRGS Pressure</h2>
+<div id="graphdiv2"
+  style="width:800px; height:300px;"></div>
+<script type="text/javascript">
+  g2 = new Dygraph(
+    document.getElementById("graphdiv2"),
+    "krgs.log", // path to CSV file
+    {digitsAfterDecimal:4,
+     includeZero: false,
+     legend: 'always',
+     ylabel:'PGPress',
+     showRoller: false,
+     rollPeriod: 1}          // options
+  );
+</script>
+<p>
+<h3>Notes:</h3>
+220826 - 16:55 VacIon HV off<br>
+220825 - 10:00 LN2 fill</br>
+220824 - 15:50 re-calibrated<br>
+220823 - 09:45 pump off, but Vac-Ion on<br>
+220822 - 15:48 LN2 fill<br>
+220822 - 14:42 pump on<br>
+220817 - 15:24 pump off<br>
+220816 - 14:48 pump on<br>
+220812 - 15:31 pump off - pressure rise test<br>
+220810 - initial testing<br>
+</body>
+</html>

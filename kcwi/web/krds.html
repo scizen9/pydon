@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>KRDS Temps</title>
+<script type="text/javascript"
+  src="dygraph.js"></script>
+<link rel="stylesheet" src="dygraph.css" />
+</head>
+<body>
+<h2>KRDS Temperatures</h2>
+<div id="graphdiv2"
+  style="width:800px; height:300px;"></div>
+<script type="text/javascript">
+  g2 = new Dygraph(
+    document.getElementById("graphdiv2"),
+    "krds.log", // path to CSV file
+    {digitsAfterDecimal:3,
+     includeZero: false,
+     legend: 'always',
+     showRoller: false,
+     rollPeriod: 1}          // options
+  );
+</script>
+<h3>Notes:</h3>
+220826 - 16:55 VacIon HV off<br>
+220825 - 10:00 LN2 fill</br>
+220825 - Initial testing<br>
+<p>
+</p>
+<h2>KRDS Temperatures HISTORY</h2>
+<div id="graphdiv3"
+  style="width:800px; height:300px;"></div>
+<script type="text/javascript">
+  g2 = new Dygraph(
+    document.getElementById("graphdiv3"),
+    "krds_history.log", // path to CSV file
+    {digitsAfterDecimal:3,
+     includeZero: false,
+     legend: 'always',
+     showRoller: false,
+     rollPeriod: 1}          // options
+  );
+</script>
+</body>
+</html>
