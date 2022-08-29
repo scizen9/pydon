@@ -31,6 +31,7 @@ for d in dirlist:
         logging.info("Current FRAMENO: %d from %s" % (current_image_number,
                                                       flist[0]))
         next_image_number = current_image_number + 1
+        break
 
 if next_image_number > 0:
     # set the next image number in server
