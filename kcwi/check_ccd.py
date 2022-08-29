@@ -3,7 +3,7 @@
 import ktl
 import time
 import os
-import glob
+import sys
 from datetime import datetime
 
 timestr = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -28,7 +28,10 @@ if len(output) == 1:
             print("Last file at" + ftime + ": " + loutfile)
         else:
             print("Last file not recorded by server")
+        sys.exit(1)
     else:
         print(timestr + ": CCDPOWER OFF")
+        sys.exit(0)
 else:
     print("KRDS not running")
+    sys.exit(0)
