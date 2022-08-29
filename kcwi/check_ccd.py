@@ -8,6 +8,8 @@ from datetime import datetime
 
 timestr = time.strftime("%Y-%m-%d %H:%M:%S")
 
+verbose = len(sys.argv) > 1
+
 # is krds running?
 stream = os.popen('pgrep -af krds_service')
 output = stream.readlines()
@@ -28,10 +30,9 @@ if len(output) == 1:
             print("Last file at " + ftime + ": " + loutfile)
         else:
             print("Last file not recorded by server")
-        sys.exit(1)
     else:
-        print(timestr + ": CCDPOWER OFF")
-        sys.exit(0)
+        if verbose:
+            print(timestr + ": CCDPOWER OFF")
 else:
-    print("KRDS not running")
-    sys.exit(0)
+    if verbose:
+        print("KRDS not running")
