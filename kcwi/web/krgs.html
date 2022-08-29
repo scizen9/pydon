@@ -33,5 +33,21 @@
 220816 - 14:48 pump on<br>
 220812 - 15:31 pump off - pressure rise test<br>
 220810 - initial testing<br>
+<p/>
+<h2>KRGS Pressure HISTORY</h2>
+<div id="graphdiv2"
+  style="width:800px; height:300px;"></div>
+<script type="text/javascript">
+  g2 = new Dygraph(
+    document.getElementById("graphdiv2"),
+    "krgs_history.log", // path to CSV file
+    {digitsAfterDecimal:4,
+     includeZero: false,
+     legend: 'always',
+     ylabel:'PGPress',
+     showRoller: false,
+     rollPeriod: 1}          // options
+  );
+</script>
 </body>
 </html>

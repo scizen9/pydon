@@ -26,5 +26,20 @@
 220823 - 09:45 Logging start<br>
 220823 - 09:35 KRVS started<br>
 220810 - Initial testing<br>
+<p/>
+<h2>KRVS Pressure</h2>
+<div id="graphdiv2"
+  style="width:800px; height:300px;"></div>
+<script type="text/javascript">
+  g2 = new Dygraph(
+    document.getElementById("graphdiv2"),
+    "krvs_history.log", // path to CSV file
+    {digitsAfterDecimal:3,
+     includeZero: false,
+     legend: 'always',
+     showRoller: false,
+     rollPeriod: 1}          // options
+  );
+</script>
 </body>
 </html>
