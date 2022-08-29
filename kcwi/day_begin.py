@@ -61,5 +61,21 @@ ktl_outdir.write(outdir_str)
 ktl_outfile = ktl.cache('krds', 'OUTFILE')
 ktl_outfile.write('kr')
 
+# set default OBJECT
+ktl_object = ktl.cache('krds', 'OBJECT')
+ktl_object.write('TEST')
+
+# set default OBSERVER
+ktl_observer = ktl.cache('krds', 'OBSERVER')
+ktl_observer.write('ENGINEER')
+
+# set default CAMERA
+ktl_camera = ktl.cache('krds', 'CAMERA')
+ktl_camera.write('Red')
+
+# set default INSTRUMENT
+ktl_instrument = ktl.cache('krds', 'INSTRUMENT')
+ktl_instrument.write('KCRM')
+
 logging.info("OUTFILE set to 'kr' and OUTDIR set to %s" % outdir_str)
 logging.info("Can start data taking now!")
