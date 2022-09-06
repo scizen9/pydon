@@ -71,7 +71,7 @@ ktl_observer.write('ENGINEER')
 
 # set default CAMERA
 ktl_camera = ktl.cache('krds', 'CAMERA')
-ktl_camera.write('Red')
+ktl_camera.write('RED')
 
 # set default INSTRUMENT
 ktl_instrument = ktl.cache('krds', 'INSTRUMENT')
