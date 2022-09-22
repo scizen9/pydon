@@ -7,7 +7,7 @@ import sys
 from datetime import datetime, timedelta
 
 timestr = time.strftime("%Y-%m-%d %H:%M:%S")
-ten_minutes_ago = datetime.now() - timedelta(minutes=10)
+n_minutes_ago = datetime.now() - timedelta(minutes=15)
 
 verbose = len(sys.argv) > 1
 
@@ -29,7 +29,7 @@ if ccdpower == 1:
         ts = os.path.getmtime(loutfile)
         ftime = datetime.fromtimestamp(ts)
 
-        if ftime < ten_minutes_ago:
+        if ftime < n_minutes_ago:
             print(timestr + ": CCDPOWER ON!")
             print("Last file at " + ftime.strftime('%Y-%m-%d %H:%M:%S')
                   + ": " + loutfile)
