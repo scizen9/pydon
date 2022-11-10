@@ -13,7 +13,7 @@ verbose = len(sys.argv) > 1
 
 try:
     ktl_ccdpower = ktl.cache('krds', 'CCDPOWER')
-except ktl.Exceptions.ktlError:
+except:
     if verbose:
         print(timestr + ': KRDS server not running!')
     sys.exit(0)

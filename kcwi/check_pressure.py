@@ -14,7 +14,7 @@ verbose = len(sys.argv) > 1
 
 try:
     ktl_pressure = ktl.cache('krvs', 'pressure')
-except ktl.Exceptions.ktlError:
+except:
     if verbose:
         print(timestr + ': KRVS server not running!')
     sys.exit(0)
