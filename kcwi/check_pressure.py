@@ -19,7 +19,7 @@ except ktl.Exceptions.ktlError:
         print(timestr + ': KRVS server not running!')
     sys.exit(0)
 
-pressure = int(ktl_pressure.read())
+pressure = float(ktl_pressure.read())
 # Pressure exceeds threshhold
 if pressure > pthresh:
     print(timestr + ": Pressure exceeds %.3e: %.3e" % (pthresh, pressure))
