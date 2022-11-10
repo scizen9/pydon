@@ -22,7 +22,7 @@ except:
 temperature = float(ktl_temperature.read())
 # Pressure exceeds threshhold
 if temperature > tthresh:
-    print(timestr + ": Temperature exceeds %.1f: %.1f" % (tthresh, temperature))
+    print(timestr + ": CCD Temperature exceeds %.1f: %.1f" % (tthresh, temperature))
 else:
     if verbose:
-        print(timestr + ": Temperature is %.1f" % temperature)
+        print(timestr + ": CCD Temperature is %.1f" % temperature)
