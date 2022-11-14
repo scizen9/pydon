@@ -34,3 +34,4 @@ if temperature > tthresh:
 else:
     if verbose:
         print(timestr + ": CCD Temperature is %.1f" % temperature)
+        print(timestr + ": Threshold temp  is %.1f" % tthresh)
