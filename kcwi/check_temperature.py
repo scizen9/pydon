@@ -3,14 +3,21 @@
 import ktl
 import time
 import sys
-from datetime import datetime, timedelta
-
-tthresh = -100.     # Temperature threshhold
 
 timestr = time.strftime("%Y-%m-%d %H:%M:%S")
-n_minutes_ago = datetime.now() - timedelta(minutes=15)
 
-verbose = len(sys.argv) > 1
+verbose = False
+tthresh = -100      # Temperature threshold
+
+for par in sys.argv:
+    if 'v' in par:
+        verbose = True
+    else:
+        try:
+            tt = float(par)
+            tthresh = tt
+        except ValueError:
+            print("parameter? - %s" % par)
 
 try:
     ktl_temperature = ktl.cache('krds', 'tempdet')
@@ -22,7 +29,8 @@ except:
 temperature = float(ktl_temperature.read())
 # Pressure exceeds threshhold
 if temperature > tthresh:
-    print(timestr + ": CCD Temperature exceeds %.1f: %.1f" % (tthresh, temperature))
+    print(timestr + ": CCD Temperature exceeds %.1f: %.1f" % (tthresh,
+                                                              temperature))
 else:
     if verbose:
         print(timestr + ": CCD Temperature is %.1f" % temperature)
