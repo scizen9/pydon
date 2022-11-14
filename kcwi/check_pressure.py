@@ -34,4 +34,4 @@ if pressure > pthresh:
 else:
     if verbose:
         print(timestr + ": Pressure is %.3e" % pressure)
-        print(timestr + ": Threshold pressure is %.1f" % pthresh)
+        print(timestr + ": Threshold pressure is %.3e" % pthresh)
