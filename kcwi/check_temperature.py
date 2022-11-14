@@ -9,15 +9,16 @@ timestr = time.strftime("%Y-%m-%d %H:%M:%S")
 verbose = False
 tthresh = -100      # Temperature threshold
 
-for par in sys.argv:
-    if 'v' in par:
-        verbose = True
-    else:
-        try:
-            tt = float(par)
-            tthresh = tt
-        except ValueError:
-            print("parameter? - %s" % par)
+if len(sys.argv) > 1:
+    for par in sys.argv[1:]:
+        if 'v' in par:
+            verbose = True
+        else:
+            try:
+                tt = float(par)
+                tthresh = tt
+            except ValueError:
+                print("parameter? - %s" % par)
 
 try:
     ktl_temperature = ktl.cache('krds', 'tempdet')
