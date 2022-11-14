@@ -3,14 +3,22 @@
 import ktl
 import time
 import sys
-from datetime import datetime, timedelta
-
-pthresh = 1.e-6     # Pressure threshhold
 
 timestr = time.strftime("%Y-%m-%d %H:%M:%S")
-n_minutes_ago = datetime.now() - timedelta(minutes=15)
 
-verbose = len(sys.argv) > 1
+verbose = False
+pthresh = 1.e-6     # Pressure threshhold
+
+if len(sys.argv) > 1:
+    for par in sys.argv[1:]:
+        if 'v' in par:
+            verbose = True
+        else:
+            try:
+                tt = float(par)
+                pthresh = tt
+            except ValueError:
+                print("parameter? - %s" % par)
 
 try:
     ktl_pressure = ktl.cache('krvs', 'pressure')
@@ -26,3 +34,4 @@ if pressure > pthresh:
 else:
     if verbose:
         print(timestr + ": Pressure is %.3e" % pressure)
+        print(timestr + ": Threshold pressure is %.1f" % pthresh)
