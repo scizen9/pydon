@@ -114,13 +114,13 @@ def get_log_string(ifile, batch=False):
                     cstr = "%(BINNING)3s:%(RGRATNAM)s:%(IFUNAM)s:%(RCWAVE).1f:" \
                            "%(EXPTIME)6.1f:%(OBJECT)s" % header
         else:
-            lstring = ifile + ' FPC image'
+            lstring = "%19s : NOT a RED image!"
             cstr = None
 
     else:
         if not batch:
             print("ERROR - Camera can not be determined.")
-        lstring = "%19s : ?" % ifile
+        lstring = "%19s : No CAMERA keyword!" % ifile
         cstr = None
 
     return lstring, cstr
