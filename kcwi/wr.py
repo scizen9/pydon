@@ -23,10 +23,10 @@ def get_log_string(ifile, batch=False):
                 header['AMPMODE'] = '-'
             if 'BINNING' not in header:
                 header['BINNING'] = '-'
-            if 'CCDMODE' not in header:
-                header['CCDMODE'] = -1
-            if 'GAINMUL' not in header:
-                header['GAINMUL'] = -1
+            if 'CDSSPEED' not in header:
+                header['CDSSPEED'] = -1
+            if 'ADCGAINS' not in header:
+                header['ADCGAINS'] = -1
             if 'NUMOPEN' not in header:
                 header['NUMOPEN'] = -1
             if 'XPOSURE' not in header:
@@ -94,8 +94,8 @@ def get_log_string(ifile, batch=False):
                 if 'object' not in header['CALTYPE']:
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
             try:
-                lstring = "%(OFNAME)19s (%(AMPMODE)8s/%(BINNING)3s/%(CCDMODE)1d/" \
-                          "%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
+                lstring = "%(OFNAME)19s (%(AMPMODE)8s/%(BINNING)3s/%(CDSSPEED)1d/" \
+                          "%(ADCGAINS)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
                           "%(RFILTNAM)5s/%(RGRATNAM)4s/%(RGROTNAM)9s dg/" \
                           "%(RCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), " \
                           "(%(RARTANG)5.1f/%(RNASNAM)4s/%(RFOCMM)6.3f) %(AIRMASS)5.3f: %(IMTYPE)7s/" \
@@ -104,7 +104,7 @@ def get_log_string(ifile, batch=False):
                 lstring = "%19s : ?" % ifile
 
             if header['EXPTIME'] <= 0.0:
-                cstr = "%(BINNING)3s:%(AMPMODE)8s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % \
+                cstr = "%(BINNING)3s:%(AMPMODE)8s:%(CDSSPEED)1d:%(ADCGAINS)2d:BIAS" % \
                        header
             else:
                 if batch:
