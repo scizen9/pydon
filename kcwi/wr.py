@@ -1,5 +1,9 @@
 #!/usr/bin/env python
-from astropy.io import fits as pf
+import sys
+if sys.version_info[0] > 2:
+    from astropy.io import fits as pf
+else:
+    import pyfits as pf
 
 
 def get_log_string(ifile, batch=False):
@@ -65,10 +69,10 @@ def get_log_string(ifile, batch=False):
                 header['OBJECT'] = header['CALXNAM']
             else:
                 header['OBJECT'] = header['TARGNAME']
-            if header['TELAPSE'] > header['XPOSURE']:
-                header['EXPTIME'] = header['TELAPSE']
-            else:
-                header['EXPTIME'] = header['XPOSURE']
+            # if header['TELAPSE'] > header['XPOSURE']:
+            #    header['EXPTIME'] = header['TELAPSE']
+            # else:
+            header['EXPTIME'] = header['XPOSURE']
             header['ILLUME'] = '-'
             if header['LMP0STAT'] == 1:
                 if header['LMP0SHST'] == 1:
@@ -90,17 +94,17 @@ def get_log_string(ifile, batch=False):
                 if 'object' not in header['CALTYPE']:
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
             try:
-                lstring = "%(OFNAME)19s (%(AMPMODE)3s/%(BINNING)3s/%(CCDMODE)1d/" \
+                lstring = "%(OFNAME)19s (%(AMPMODE)8s/%(BINNING)3s/%(CCDMODE)1d/" \
                           "%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
                           "%(RFILTNAM)5s/%(RGRATNAM)4s/%(RGROTNAM)9s dg/" \
                           "%(RCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), " \
                           "(%(RARTANG)5.1f/%(RNASNAM)4s/%(RFOCMM)6.3f) %(AIRMASS)5.3f: %(IMTYPE)7s/" \
                           "%(ILLUME)6s/%(OBJECT)s" % header
             except:
-                lstring = "%28s : ?" % ifile
+                lstring = "%19s : ?" % ifile
 
             if header['EXPTIME'] <= 0.0:
-                cstr = "%(BINNING)3s:%(AMPMODE)3s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % \
+                cstr = "%(BINNING)3s:%(AMPMODE)8s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % \
                        header
             else:
                 if batch:
@@ -113,9 +117,13 @@ def get_log_string(ifile, batch=False):
             lstring = ifile + ' FPC image'
             cstr = None
 
-        return lstring, cstr
     else:
-        print("ERROR - Camera can not be determined.")
+        if not batch:
+            print("ERROR - Camera can not be determined.")
+        lstring = "%19s : ?" % ifile
+        cstr = None
+
+    return lstring, cstr
 
 
 if __name__ == '__main__':
