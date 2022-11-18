@@ -95,7 +95,7 @@ def get_log_string(ifile, batch=False):
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
             try:
                 lstring = "%(OFNAME)19s (%(AMPMODE)8s/%(BINNING)3s/%(CDSSPEED)1d/" \
-                          "%(ADCGAINS)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
+                          "%(ADCGAINS)1d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
                           "%(RFILTNAM)5s/%(RGRATNAM)4s/%(RGROTNAM)9s dg/" \
                           "%(RCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), " \
                           "(%(RARTANG)5.1f/%(RNASNAM)4s/%(RFOCMM)6.3f) %(AIRMASS)5.3f: %(IMTYPE)7s/" \
@@ -104,7 +104,7 @@ def get_log_string(ifile, batch=False):
                 lstring = "%19s : ?" % ifile
 
             if header['EXPTIME'] <= 0.0:
-                cstr = "%(BINNING)3s:%(AMPMODE)8s:%(CDSSPEED)1d:%(ADCGAINS)2d:BIAS" % \
+                cstr = "%(BINNING)3s:%(AMPMODE)8s:%(CDSSPEED)1d:%(ADCGAINS)1d:BIAS" % \
                        header
             else:
                 if batch:
