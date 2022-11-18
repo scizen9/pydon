@@ -33,7 +33,7 @@ while True:
     except KeyboardInterrupt:
         print("\nExiting.")
         sys.exit(0)
-    except ktl.Exceptions.ktlError:
+    except:
         print("KTL Error")
         time.sleep(30)
         pass
