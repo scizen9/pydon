@@ -17,6 +17,7 @@ def get_log_string(ifile, batch=False):
     header['FNAME'] = ifile
     if 'CAMERA' in header:
         if 'RED' in header['CAMERA'].upper():
+            is_bias = False
             if 'OFNAME' not in header:
                 header['OFNAME'] = ifile
             if 'AMPMODE' not in header:
@@ -73,6 +74,8 @@ def get_log_string(ifile, batch=False):
             #    header['EXPTIME'] = header['TELAPSE']
             # else:
             header['EXPTIME'] = header['XPOSURE']
+            if header['EXPTIME'] == 0.:
+                is_bias = True
             header['ILLUME'] = '-'
             if header['LMP0STAT'] == 1:
                 if header['LMP0SHST'] == 1:
@@ -90,6 +93,9 @@ def get_log_string(ifile, batch=False):
                     header['ILLUME'] = 'DOME'
                     if not batch:
                         header['OBJECT'] = 'DOME'
+            if 'BIAS' in header['IMTYPE']:
+                if not is_bias:
+                    header['IMTYPE'] = 'TEST'
             if not batch:
                 if 'object' not in header['CALTYPE']:
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
