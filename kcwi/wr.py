@@ -11,7 +11,7 @@ def get_log_string(ifile, batch=False):
         ff = pf.open(ifile)
     except IOError:
         print("***ERROR*** empty or corrupt fits file: %s" % ifile)
-        quit()
+        return None, None
 
     header = ff[0].header
     header['FNAME'] = ifile
@@ -95,7 +95,7 @@ def get_log_string(ifile, batch=False):
                         header['OBJECT'] = 'DOME'
             if 'BIAS' in header['IMTYPE']:
                 if not is_bias:
-                    header['IMTYPE'] = 'TEST'
+                    header['IMTYPE'] = 'DARK'
             if not batch:
                 if 'object' not in header['CALTYPE']:
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
@@ -120,7 +120,7 @@ def get_log_string(ifile, batch=False):
                     cstr = "%(BINNING)3s:%(RGRATNAM)s:%(IFUNAM)s:%(RCWAVE).1f:" \
                            "%(EXPTIME)6.1f:%(OBJECT)s" % header
         else:
-            lstring = "%19s : NOT a RED image!"
+            lstring = "%19s : NOT a RED image!" % ifile
             cstr = None
 
     else:
@@ -164,18 +164,18 @@ if __name__ == '__main__':
             print(c)
 
         if len(bias) > 0:
-            with open('bias.txt', 'a') as ofil:
+            with open('bias.txt', 'w') as ofil:
                 for b in bias:
                     ofil.write(b + '\n')
         if len(cflat) > 0:
-            with open('cflat.txt', 'a') as ofil:
+            with open('cflat.txt', 'w') as ofil:
                 for c in cflat:
                     ofil.write(c + '\n')
         if len(dflat) > 0:
-            with open('dflat.txt', 'a') as ofil:
+            with open('dflat.txt', 'w') as ofil:
                 for d in dflat:
                     ofil.write(d + '\n')
         if len(tflat) > 0:
-            with open('tflat.txt', 'a') as ofil:
+            with open('tflat.txt', 'w') as ofil:
                 for t in tflat:
                     ofil.write(t + '\n')

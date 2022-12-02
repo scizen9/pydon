@@ -17,6 +17,7 @@ def get_log_string(ifile, batch=False):
     header['FNAME'] = ifile
     if 'CAMERA' in header:
         if 'BLUE' in header['CAMERA'].upper():
+            is_bias = False
             if 'OFNAME' not in header:
                 header['OFNAME'] = ifile
             if 'AMPMODE' not in header:
@@ -31,6 +32,8 @@ def get_log_string(ifile, batch=False):
                 header['NUMOPEN'] = -1
             if 'XPOSURE' not in header:
                 header['XPOSURE'] = -1.
+            if 'AIRMASS' not in header:
+                header['AIRMASS'] = -1.
             if 'TELAPSE' not in header:
                 header['TELAPSE'] = -1.
             if 'BFILTNAM' not in header:
@@ -71,6 +74,8 @@ def get_log_string(ifile, batch=False):
                 header['EXPTIME'] = header['TELAPSE']
             else:
                 header['EXPTIME'] = header['XPOSURE']
+            if header['EXPTIME'] <= 0.:
+                is_bias = True
             header['ILLUME'] = '-'
             if header['LMP0STAT'] == 1:
                 if header['LMP0SHST'] == 1:
@@ -88,24 +93,34 @@ def get_log_string(ifile, batch=False):
                     header['ILLUME'] = 'DOME'
                     if not batch:
                         header['OBJECT'] = 'DOME'
+            if 'BIAS' in header['IMTYPE']:
+                if not is_bias:
+                    header['IMTYPE'] = 'DARK'
             if not batch:
                 if 'object' not in header['CALTYPE']:
                     header['OBJECT'] = header['OBJECT'] + header['ILLUME']
             try:
-                lstring = "%(OFNAME)19s (%(AMPMODE)3s/%(BINNING)3s/%(CCDMODE)1d/%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/%(BFILTNAM)5s/%(BGRATNAM)4s/%(BGROTNAM)9s dg/%(BCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), (%(BARTANG)5.1f/%(BNASNAM)4s/%(BFOCMM)6.3f): %(CALTYPE)7s/%(ILLUME)6s/%(OBJECT)s" % header
+                lstring = "%(OFNAME)19s (%(AMPMODE)3s/%(BINNING)3s/%(CCDMODE)1d/" \
+                          "%(GAINMUL)2d/%(NUMOPEN)2d/%(EXPTIME)6.1f s), (%(IFUNAM)3s/" \
+                          "%(BFILTNAM)5s/%(BGRATNAM)4s/%(BGROTNAM)9s dg/" \
+                          "%(BCWAVE)6.1f/%(CALPNAM)5s/%(CALLANG)5.1f dg), " \
+                          "(%(BARTANG)5.1f/%(BNASNAM)4s/%(BFOCMM)6.3f) %(AIRMASS)5.3f: %(IMTYPE)7s/" \
+                          "%(ILLUME)6s/%(OBJECT)s" % header
             except:
                 lstring = "%19s : ?" % ifile
 
             if header['EXPTIME'] <= 0.0:
-                cstr = "%(BINNING)3s:%(AMPMODE)3s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % header
+                cstr = "%(BINNING)3s:%(AMPMODE)3s:%(CCDMODE)1d:%(GAINMUL)2d:BIAS" % \
+                       header
             else:
                 if batch:
-                    cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f" % header
+                    cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f" \
+                           % header
                 else:
-                    cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f:%(EXPTIME)6.1f:%(OBJECT)s" % header
-
+                    cstr = "%(BINNING)3s:%(BGRATNAM)s:%(IFUNAM)s:%(BCWAVE).1f:" \
+                           "%(EXPTIME)6.1f:%(OBJECT)s" % header
         else:
-            lstring = "%19s : NOT a BLUE image!"
+            lstring = "%19s : NOT a BLUE image!" % ifile
             cstr = None
 
     else:
@@ -149,18 +164,18 @@ if __name__ == '__main__':
             print(c)
 
         if len(bias) > 0:
-            with open('bias.txt', 'a') as ofil:
+            with open('bias.txt', 'w') as ofil:
                 for b in bias:
                     ofil.write(b + '\n')
         if len(cflat) > 0:
-            with open('cflat.txt', 'a') as ofil:
+            with open('cflat.txt', 'w') as ofil:
                 for c in cflat:
                     ofil.write(c + '\n')
         if len(dflat) > 0:
-            with open('dflat.txt', 'a') as ofil:
+            with open('dflat.txt', 'w') as ofil:
                 for d in dflat:
                     ofil.write(d + '\n')
         if len(tflat) > 0:
-            with open('tflat.txt', 'a') as ofil:
+            with open('tflat.txt', 'w') as ofil:
                 for t in tflat:
                     ofil.write(t + '\n')
