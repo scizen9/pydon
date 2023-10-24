@@ -1,6 +1,18 @@
 #!/usr/bin/env python
 from astropy.io import fits as pf
 import glob
+import sys
+
+prf = "kb"
+
+if len(sys.argv) > 1:
+    if 'RED' in sys.argv[1].upper():
+        prf = "kr"
+
+if "kr" in prf:
+    print("Operating on RED images only")
+else:
+    print("Operating on BLUE images only")
 
 done = False
 
@@ -31,7 +43,7 @@ while not done:
 
         for fi in range(sfno, efno):
             fspec = "%05d" % fi
-            flist = glob.glob("*%s.fits" % fspec)
+            flist = glob.glob(prf + "*%s.fits" % fspec)
             if len(flist) == 1:
                 print(flist[0])
                 pf.setval(flist[0], k, value=vs)
