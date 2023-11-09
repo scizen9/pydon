@@ -47,6 +47,9 @@ wg1 = hdr['WAVGOOD1']
 
 if wg0 < 3650:
     wg0 = 3650.
+    blue_lim = True
+else:
+    blue_lim = False
 
 pngf = date + '_' + ifu + '_' + grat + '_%.0f.png' % cwav
 
@@ -62,6 +65,8 @@ pl.plot(wwt, fft)
 
 pl.axvline(wg0, color='red')
 pl.axvline(wg1, color='red')
+if blue_lim:
+    pl.axvline(3650., color='black')
 
 pl.axvline(cwav, color='green')
 
@@ -71,7 +76,7 @@ pl.axhline(np.nanmean(fft), color='blue', linestyle='dotted')
 pl.xlabel("WAVE (A)")
 pl.ylabel("TEL + INST EFF (%)")
 
-pl.ylim(0, np.nanmax(ddt)*1.05)
+pl.ylim(0, np.nanmax(fft)*1.05)
 
 pl.title(date + " " + ifu + " " + grat + " %.0f A" % cwav)
 
