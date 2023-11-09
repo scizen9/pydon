@@ -41,14 +41,17 @@ else:
     filt = ''
 
 ifu = hdr['IFUNAM']
+
 wg0 = hdr['WAVGOOD0']
 wg1 = hdr['WAVGOOD1']
 
-wg0i = min( [i for i in np.arange(len(ww)) if ww[i] >= wg0] )
-wg1i = max( [i for i in np.arange(len(ww)) if ww[i] <= wg1] )
+pngf = date + '_' + ifu + '_' + grat + '_%.0f.png' % cwav
 
-pl.plot(ww[wg0i:wg1i],dd[wg0i:wg1i])
-pl.plot(ww[wg0i:wg1i],ff[wg0i:wg1i])
+wg0i = min([i for i in np.arange(len(ww)) if ww[i] >= wg0])
+wg1i = max([i for i in np.arange(len(ww)) if ww[i] <= wg1])
+
+pl.plot(ww[wg0i:wg1i], dd[wg0i:wg1i])
+pl.plot(ww[wg0i:wg1i], ff[wg0i:wg1i])
 
 pl.axvline(wg0, color='red')
 pl.axvline(wg1, color='red')
@@ -64,5 +67,6 @@ pl.ylabel("TEL + INST EFF (%)")
 pl.ylim(0, np.nanmax(dd[wg0i:wg1i])*1.05)
 
 pl.title(date + " " + ifu + " " + grat + " %.0f A" % cwav)
-pl.show()
 
+pl.savefig(pngf, bbox_inches="tight")
+pl.show()
