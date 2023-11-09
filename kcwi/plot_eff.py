@@ -4,17 +4,18 @@ import matplotlib.pyplot as pl
 from astropy.io import fits as pf
 import numpy as np
 import sys
+import os
 
 area = 760000.0
 
 in_ea = sys.argv[1]
 
+date = "_".join(os.path.basename(in_ea).split('_')[:2])
+
 if 'kb' in in_ea:
     chan = 'BLUE'
-    date = in_ea.split('kb')[-1].split('_')[0]
 elif 'kr' in in_ea:
     chan = 'RED'
-    date = in_ea.split('kr')[-1].split('_')[0]
 else:
     print("BAD file: ", in_ea)
     sys.exit()
