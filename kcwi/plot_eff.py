@@ -11,8 +11,10 @@ in_ea = sys.argv[1]
 
 if 'kb' in in_ea:
     chan = 'BLUE'
+    date = in_ea.split('kb')[-1].split('_')[0]
 elif 'kr' in in_ea:
     chan = 'RED'
+    date = in_ea.split('kr')[-1].split('_')[0]
 else:
     print("BAD file: ", in_ea)
     sys.exit()
@@ -61,6 +63,6 @@ pl.ylabel("TEL + INST EFF (%)")
 
 pl.ylim(0, np.nanmax(dd[wg0i:wg1i])*1.05)
 
-pl.title(ifu + " " + grat + " %.0f A" % cwav)
+pl.title(date + " " + ifu + " " + grat + " %.0f A" % cwav)
 pl.show()
 
