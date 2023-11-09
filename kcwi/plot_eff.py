@@ -45,26 +45,33 @@ ifu = hdr['IFUNAM']
 wg0 = hdr['WAVGOOD0']
 wg1 = hdr['WAVGOOD1']
 
+if wg0 < 3650:
+    wg0 = 3650.
+
 pngf = date + '_' + ifu + '_' + grat + '_%.0f.png' % cwav
 
 wg0i = min([i for i in np.arange(len(ww)) if ww[i] >= wg0])
 wg1i = max([i for i in np.arange(len(ww)) if ww[i] <= wg1])
 
-pl.plot(ww[wg0i:wg1i], dd[wg0i:wg1i])
-pl.plot(ww[wg0i:wg1i], ff[wg0i:wg1i])
+ddt = dd[wg0i:wg1i]
+fft = ff[wg0i:wg1i]
+wwt = ww[wg0i:wg1i]
+
+pl.plot(wwt, ddt)
+pl.plot(wwt, fft)
 
 pl.axvline(wg0, color='red')
 pl.axvline(wg1, color='red')
 
 pl.axvline(cwav, color='green')
 
-pl.axhline(np.nanmax(ff), color='black', linestyle='dashed')
-pl.axhline(np.nanmean(ff), color='blue', linestyle='dotted')
+pl.axhline(np.nanmax(fft), color='black', linestyle='dashed')
+pl.axhline(np.nanmean(fft), color='blue', linestyle='dotted')
 
 pl.xlabel("WAVE (A)")
 pl.ylabel("TEL + INST EFF (%)")
 
-pl.ylim(0, np.nanmax(dd[wg0i:wg1i])*1.05)
+pl.ylim(0, np.nanmax(ddt)*1.05)
 
 pl.title(date + " " + ifu + " " + grat + " %.0f A" % cwav)
 
