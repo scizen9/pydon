@@ -52,10 +52,14 @@ def make_std(std_name, out_name):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 3:
-        print("Usage: calspec2drp std_name out_name")
+    if len(sys.argv) < 2:
+        print("Usage: calspec2drp std_name [out_name]")
         sys.exit()
 
-    std = sys.argv[1]
-    out = sys.argv[2]
+    if len(sys.argv) < 3:
+        std = sys.argv[1]
+        out = sys.argv[1]
+    else:
+        std = sys.argv[1]
+        out = sys.argv[2]
     make_std(std, out)
