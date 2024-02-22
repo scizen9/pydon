@@ -12,6 +12,7 @@ nexp = 0
 nseq = -1
 seqno = 1
 in_exposure = False
+in_read = False
 print("")
 with open(sys.argv[1]) as fn:
     lines = fn.readlines()
@@ -30,11 +31,22 @@ with open(sys.argv[1]) as fn:
             nseq = int(ln.split()[-1])
             nexp = 0
             deltas = []
+            rdeltas = []
 
         if "waiting for new frame:" in ln:
             # print(ln)
             ts_exp_start = datetime.datetime.strptime(ts_str, tfmt)
             in_exposure = True
+
+        if "will read image data" in ln:
+            ts_rd_start = datetime.datetime.strptime(ts_str, tfmt)
+            in_read = True
+
+        if "successfully read" in ln:
+            if in_read:
+                ts_rd_stop = datetime.datetime.strptime(ts_str, tfmt)
+                rdeltas.append(ts_rd_stop - ts_rd_start)
+                in_read = False
 
         if "READOUT COMPLETE" in ln:
             # print(ln)
@@ -43,7 +55,9 @@ with open(sys.argv[1]) as fn:
                 deltas.append(ts_exp_stop - ts_exp_start)
                 nexp += 1
                 in_exposure = False
-            elif nexp > 1:
+
+        if "READOUT SEQUENCE COMPLETE" in ln:
+            if nexp > 1:
                 print("Sequence %d" % seqno)
                 print(vstart, vstop, hstart, hstop)
                 print(vstop-vstart+1, "x", hstop-hstart+1)
@@ -53,13 +67,19 @@ with open(sys.argv[1]) as fn:
                 for d in gdelts:
                     d_hz.append(1.e6/d.microseconds)
                 d_hz = np.asarray(d_hz)
-                print("Hz = %.3f +- %.3f" % (d_hz.mean(), d_hz.std()))
+                r_hz = []
+                for r in rdeltas:
+                    r_hz.append(1.e6/r.microseconds)
+                r_hz = np.asarray(r_hz)
+                print("Expos Hz = %.3f +- %.3f" % (d_hz.mean(), d_hz.std()))
+                print("Fetch Hz = %.3f +- %.3f" % (r_hz.mean(), r_hz.std()))
                 print("")
                 ofn.write(
-                    "%3d %4d %4d %4d %4d %3d %3d %3d %3d %8.3f %8.3f\n"
+                    "%3d %4d %4d %4d %4d %3d %3d %3d %3d "
+                    "%8.3f %8.3f %8.3f %8.3f\n"
                     % (seqno, vstart, vstop, hstart, hstop,
                        vstop-vstart+1, hstop-hstart+1, nexp, nseq,
-                       d_hz.mean(), d_hz.std()))
+                       d_hz.mean(), d_hz.std(), r_hz.mean(), r_hz.std()))
                 seqno += 1
             else:
                 print("Sequence %d" % seqno)
