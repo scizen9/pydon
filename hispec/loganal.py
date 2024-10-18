@@ -11,9 +11,11 @@ tfmt = "%Y-%m-%dT%H:%M:%S.%f"
 nexp = 0
 nseq = -1
 seqno = 1
+first_frame = -1
 in_exposure = False
 in_read = False
 in_wait = False
+wrote_newline = False
 print("")
 with open(sys.argv[1]) as fn:
     lines = fn.readlines()
@@ -50,6 +52,8 @@ with open(sys.argv[1]) as fn:
         if "will read image data" in ln:
             ts_rd_start = datetime.datetime.strptime(ts_str, tfmt)
             frame = int(ln.split()[-1])
+            if first_frame < 0:
+                first_frame = int(ln.split()[-1])
             in_read = True
 
         if "successfully read" in ln:
@@ -68,10 +72,20 @@ with open(sys.argv[1]) as fn:
 
         if "Last frame read" in ln:
             last_frame = int(ln.split()[-4])
+            ofn.write(" %6d %6d\n" % (first_frame, last_frame))
+            wrote_newline = True
             if frame == last_frame:
                 print("Sequence synced")
             else:
-                print("Sequence NOT synced")
+                if frame > last_frame:
+                    print("Sequence NOT synced: overflow (frame > last)")
+                else:
+                    print("Sequence NOT synced: underflow (frame < last)")
+            first_frame = -1
+
+        if "received command" in ln and "hexpose" in ln:
+            if not wrote_newline:
+                ofn.write("\n")
 
         if "READOUT SEQUENCE COMPLETE" in ln:
             if nexp > 1:
@@ -96,8 +110,8 @@ with open(sys.argv[1]) as fn:
                 print("Fetch Hz = %.3f +- %.3f" % (r_hz.mean(), r_hz.std()))
                 print("Wait  Hz = %.3f +- %.3f" % (w_hz.mean(), w_hz.std()))
                 ofn.write(
-                    "%3d %4d %4d %4d %4d %3d %3d %3d %3d "
-                    "%8.3f %8.3f %8.3f %8.3f %8.3f %8.3f\n"
+                    "%3d %4d %4d %4d %4d %3d %3d %6d %6d "
+                    "%9.2f %9.2f %9.2f %9.2f %9.2f %9.2f"
                     % (seqno, vstart, vstop, hstart, hstop,
                        vstop-vstart+1, hstop-hstart+1, nexp, nseq,
                        d_hz.mean(), d_hz.std(), r_hz.mean(), r_hz.std(),
